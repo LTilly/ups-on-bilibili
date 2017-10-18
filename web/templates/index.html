@@ -1,0 +1,250 @@
+{% extends 'layout.html' %}
+
+{% block style %}
+	<script src="{{url_for('static',filename='js/customed.js')}}"></script>
+	<style>
+		#catPie,#levPie,#sexPie,#staPie{
+			display: inline-block;
+			width: 60%;
+			height: 350px;
+		}
+		main p{
+			max-width: 50%;
+			margin: 0 auto;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<script>
+		var a=document.getElementById("a1");
+		a.className="disabled";
+		a.href="#";
+	</script>
+	<div id="catPie"></div>
+	<p>游戏视频up主最多，其次是生活类型，而广告和国创的up主最少。说明游戏和生活类视频易于制作且受欢迎，而受众较小的如广告，视频制作难的如舞蹈，up主都偏少。还有，人家动画都排在第三了，国漫居然这么落后，看来国创还需努力呀！恨铁不成钢！！（其实只是出国创的up出动画视频更多，所以纯国创up自然比较少。。。）</p>
+	<br>
+	<div id="levPie"></div>
+	<p>之前还以为各位up主大佬们绝大多数都是LV6呢，结果最多的还是LV5的，其次是LV4，然后才是LV6，看来LV6的都是大神级别的了。喂喂，桥多麻袋！那四个LV0、两个LV1的大佬是怎么回事？播放量上十万，就是没有经验值，竟然还有这种操作吗？</p>
+	<br>
+	<div id="sexPie"></div>
+	<p>性别的分布比较合理，多数保密，男性比女性多一半。但是绝大多数大佬的视频都暴露性别了的，为什么个人信息里性别要保密捏？而且还发现几个乱填性别的。。。这个统计还能用吗。。。</p>
+	<br>
+	<div id="staPie"></div>
+	<p>这个星座的up主数量相差不大，最多的是摩羯座的，我已经剔掉了所有默认1月1日生日（不填写生日时默认1月1日）的，结果还是这么多，占了10.51%。而最少的是金牛座，占了7.26%。</p>
+	<br>
+	<script type="text/javascript">
+		var catPie=echarts.init(document.getElementById('catPie'),'customed');
+		catPie.setOption({
+	        title: {
+	            text: 'up主类型统计',          
+	            x: 'center',
+	            padding: [10, 10, 10, 10],
+	            textStyle: {
+	            	fontSize: 24
+	            }
+	        },
+	        tooltip: {
+	            trigger: 'item',
+	            formatter: "{a} <br/>{b} : {c}人 ({d}%)"
+	        },
+	        series: [{
+	            name: 'up主类型统计',
+	            type: 'pie',
+	            radius: '60%',
+	            center: ['65%', '55%'],
+	            data: [
+	            	{name: '游戏',value: 4775},
+	            	{name: '生活',value: 3920},
+	            	{name: '动画',value: 2904},
+	            	{name: '音乐',value: 2581},
+	            	{name: '娱乐',value: 2377},
+	            	{name: '科技',value: 1742},
+	            	{name: '电视剧',value: 1626},
+	            	{name: '舞蹈',value: 1077},
+	            	{name: '时尚',value: 988},
+	            	{name: '鬼畜',value: 978},
+	            	{name: '电影',value: 935},
+	            	{name: '番剧',value: 461},
+	            	{name: '国创',value: 262},
+	            	{name: '广告',value: 31}
+	            ]
+	        }],
+	        label: {
+	            normal: {
+			        fontSize: 15,
+			        fontFamily: '微软雅黑',
+			        fontWeight: 'bold',
+			        color: '#444',
+	            }
+	        },
+	        labelLine: {
+	            normal: {
+	            	lineStyle: {
+	            		color: '#444',
+	            	} 
+	            }
+	        },
+	        legend: {
+	        	orient: 'vertical',
+	        	left: '120',
+	        	top: '60',
+	        	data: ['游戏','生活','动画','音乐','娱乐','科技','电视剧','舞蹈','时尚','鬼畜','电影','番剧','国创','广告']
+	        }
+	    });
+	    var levPie=echarts.init(document.getElementById('levPie'));
+		levPie.setOption({
+	        title: {
+	            text: 'up主等级统计',          
+	            x: 'center',
+	            padding: [10, 10, 10, 10],
+	            textStyle: {
+	            	fontSize: 24
+	            }
+	        },
+	        tooltip: {
+	            trigger: 'item',
+	            formatter: "{a} <br/>{b} : {c}人 ({d}%)"
+	        },
+	        series: [{
+	            name: 'up主等级统计',
+	            type: 'pie',
+	            radius: '60%',
+	            center: ['60%', '55%'],
+	            data: [
+	            	{name: 'LV0',value: 4},
+	            	{name: 'LV1',value: 2},
+	            	{name: 'LV2',value: 532},
+	            	{name: 'LV3',value: 2623},
+	            	{name: 'LV4',value: 7348},
+	            	{name: 'LV5',value: 10736},
+	            	{name: 'LV6',value: 3733},
+	            ]
+	        }],
+	        label: {
+	            normal: {
+			        fontSize: 15,
+			        fontFamily: '微软雅黑',
+			        fontWeight: 'bold',
+			        color: '#444',
+	            }
+	        },
+	        labelLine: {
+	            normal: {
+	            	lineStyle: {
+	            		color: '#444',
+	            	} 
+	            }
+	        },
+	        legend: {
+	        	orient: 'vertical',
+	        	left: '150',
+	        	top: '60',
+	        	data: ['LV0','LV1','LV2','LV3','LV4','LV5','LV6']
+	        }
+	    });
+	    var sexPie=echarts.init(document.getElementById('sexPie'));
+		sexPie.setOption({
+	        title: {
+	            text: 'up主性别统计',          
+	            x: 'center',
+	            padding: [10, 10, 10, 10],
+	            textStyle: {
+	            	fontSize: 24
+	            }
+	        },
+	        tooltip: {
+	            trigger: 'item',
+	            formatter: "{a} <br/>{b} : {c}人 ({d}%)"
+	        },
+	        series: [{
+	            name: 'up主性别统计',
+	            type: 'pie',
+	            radius: '60%',
+	            center: ['60%', '55%'],
+	            data: [
+	            	{name: '保密',value: 10531},
+	            	{name: '男',value: 8586},
+	            	{name: '女',value: 5861},
+	            ]
+	        }],
+	        label: {
+	            normal: {
+			        fontSize: 15,
+			        fontFamily: '微软雅黑',
+			        fontWeight: 'bold',
+			        color: '#444',
+	            }
+	        },
+	        labelLine: {
+	            normal: {
+	            	lineStyle: {
+	            		color: '#444',
+	            	} 
+	            }
+	        },
+	        legend: {
+	        	orient: 'vertical',
+	        	left: '150',
+	        	top: '60',
+	        	data: ['保密','男','女']
+	        }
+	    });
+	    var staPie=echarts.init(document.getElementById('staPie'),'customed');
+		staPie.setOption({
+	        title: {
+	            text: 'up主星座统计',          
+	            x: 'center',
+	            padding: [10, 10, 10, 10],
+	            textStyle: {
+	            	fontSize: 24
+	            }
+	        },
+	        tooltip: {
+	            trigger: 'item',
+	            formatter: "{a} <br/>{b} : {c}人 ({d}%)"
+	        },
+	        series: [{
+	            name: 'up主星座统计',
+	            type: 'pie',
+	            radius: '60%',
+	            center: ['60%', '55%'],
+	            data: [
+	            	{name: '摩羯',value: 1763},
+	            	{name: '水瓶',value: 1432},
+	            	{name: '双鱼',value: 1314},
+	            	{name: '白羊',value: 1249},
+	            	{name: '金牛',value: 1218},
+	            	{name: '双子',value: 1452},
+	            	{name: '巨蟹',value: 1282},
+	            	{name: '狮子',value: 1356},
+	            	{name: '处女',value: 1388},
+	            	{name: '天秤',value: 1492},
+	            	{name: '天蝎',value: 1547},
+	            	{name: '射手',value: 1288},
+	            ]
+	        }],
+	        label: {
+	            normal: {
+			        fontSize: 15,
+			        fontFamily: '微软雅黑',
+			        fontWeight: 'bold',
+			        color: '#444',
+	            }
+	        },
+	        labelLine: {
+	            normal: {
+	            	lineStyle: {
+	            		color: '#444',
+	            	} 
+	            }
+	        },
+	        legend: {
+	        	orient: 'vertical',
+	        	left: '140',
+	        	top: '60',
+	        	data: ['摩羯','水瓶','双鱼','白羊','金牛','双子','巨蟹','狮子','处女','天秤','天蝎','射手']
+	        }
+	    });
+	</script>
+{% endblock %}

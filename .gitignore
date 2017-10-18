@@ -1,0 +1,6 @@
+*.pyc
+bili/log.txt
+bili/scrapy.cfg
+*__pycache__
+*__init__.py
+web/static/img/*.jpg

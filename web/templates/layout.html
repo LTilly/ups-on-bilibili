@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>B站up主数据可视化</title>
+	<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/echarts/3.7.2/echarts.min.js"></script>
+	<link rel="shortcut icon" href="{{url_for('static',filename='img/logo.png')}}">
+	<style>
+		body {
+			margin: 0;
+			font-family:微软雅黑;
+			background-color: #bbb;
+		}
+
+		#bg {
+			width: 80%;
+			margin: 0 auto;
+			position: relative;
+			background-image: url("{{url_for('static',filename='img/header.png')}}");
+			background-size: cover;
+			background-position: 20%;
+		}
+
+		header {
+			height: 40px;
+			background: #eee;
+			box-sizing: border-box;
+			padding-left:  10%;
+
+		}
+
+		h1{
+			color: #333;
+			margin: 0;
+			line-height: 40px;
+			font-size: 1.5em;
+		}
+
+		nav{
+			position: absolute;
+			right: 10%;
+			top: 8px;
+		}
+
+		nav a{
+			text-decoration: none;
+			color: #444;
+			font-size: 0.8em;
+			padding: 4px 10px;
+			border: 1px solid #444;
+			border-radius: 4px;
+			margin-right: 6px;
+			transition: .2s;
+	        -o-transition: .2s;
+	        -ms-transition: .2s;
+	        -moz-transition: .2s;
+	        -webkit-transition: .2s;
+		}
+
+		nav a:hover{
+			color: #ccc;
+			background-color: #000;
+			box-shadow: 1px 1px 2px #222;
+		}
+
+		.disabled,.disabled:hover{
+			color: #eee;
+			background-color: #aaa;
+			box-shadow: none;
+		}
+
+		#bg p{
+			width: 70%;
+			color: #fff;
+			margin: 10px 5%;
+		}
+
+		main{
+			width: 80%;
+			margin: 0 auto;
+			background-color: #ddd;
+			text-align: center;
+		}
+
+		footer{
+			width: 80%;
+			margin: 0 auto;
+			background-color: #999;
+			color: #111;
+			text-align: center;
+			padding: 2px 0;
+		}
+	</style>
+	{% block style %} {% endblock %}
+</head>
+<body>
+	<header>
+		<h1>Bilibili up主 数据可视化</h1>
+		<nav>
+			<a id="a1" href="{{url_for('index')}}">占比</a>
+			<a id="a2" href="{{url_for('map')}}">所在地</a>
+			<a id="a3" href="{{url_for('category')}}">类型</a>
+			<a id="a4" href="{{url_for('number')}}">数量</a>
+			<a id="a5" href="{{url_for('regtime')}}">注册时间</a>
+			<a id="a6" href="{{url_for('follow')}}">关注</a>
+			<a id="a7" href="{{url_for('search')}}">搜索</a>
+		</nav>
+	</header>
+	<div id="bg">
+		<br>
+		<br>
+		<br>
+		<p>数据来自Bilibili，使用scrapy-redis分布式框架爬取、解析数据。</p>
+		<p>使用Flask、Echarts、D3进行数据可视化。</p>
+		<p>共获取24978条up主记录，包含16个字段：ID、昵称、头像、签名、视频数、类型、等级、性别、关注数、粉丝数、播放量、认证、注册时间、生日、所在地和标签，并记录了每个up主关注的upID。</p>
+		<br>	
+	</div>
+	<main>
+		 {% block body %} {% endblock %}
+	</main>
+	<footer>
+		<p>Copyright © 2017 LTilly. All Rights Reserved.</p>
+	</footer>
+</body>
+</html>

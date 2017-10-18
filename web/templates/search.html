@@ -1,0 +1,520 @@
+{% extends 'layout.html' %}
+
+{% block style %}
+	<style>
+		main{
+			text-align: left;
+		}
+		#search{
+			width: 80%;
+			height: 45px;
+			margin: 0 auto;
+			background-color: #bbb;
+			position: relative;
+			border-left: 3px solid #bbb;
+			border-right: 3px solid #bbb;
+		}
+		input{
+			width: 200px;
+			height: 30px;
+			margin: 5px;
+			background-color: #eee;
+			border-radius: 10px 0 0 10px;
+			border: 0;
+			position:absolute;
+			padding-left: 10px;
+			font-size: 1em;
+			font-family: 微软雅黑;
+			color: #555;
+		}
+		input:focus{
+			box-shadow: 0 0 5px #222;
+			outline: none;
+		}
+		#message{
+			height: 32px;
+			margin: 5px 0;
+			display: inline-block;
+			line-height: 32px;
+			font-size: 1em;
+			color: #006;
+			position:absolute;
+			left: 270px;
+			display: none;
+		}
+		#submit{
+			height: 32px;
+			margin: 5px 0;
+			padding: 0 10px;
+			display: inline-block;
+			line-height: 30px;
+			font-weight: bold;
+			color: #fff;
+			background-color: #666;
+			border: 0;
+			border-radius: 0 10px 10px 0;
+			position:absolute;
+			left: 212px;
+			cursor: pointer;
+			transition: .2s;
+	        -o-transition: .2s;
+	        -ms-transition: .2s;
+	        -moz-transition: .2s;
+	        -webkit-transition: .2s;
+		}
+		#submit:hover{
+			background-color: #ddd;
+			box-shadow: 0 0 5px #222;
+			color: #666;
+			transition: .2s;
+	    	-o-transition: .2s;
+	    	-ms-transition: .2s;
+	    	-moz-transition: .2s;
+	    	-webkit-transition: .2s;
+		}
+		#c0{
+			height: 32px;
+			margin: 5px 0;
+			padding: 0 10px;
+			display: inline-block;
+			line-height: 32px;
+			font-size: 1.2em;
+			color: #444;
+			position:absolute;
+			right: 10px;
+		}
+		#c1,#c2,#c3{
+			margin: 0 5px;
+			display: inline-block;
+			cursor: pointer;
+			transition: .2s;
+	        -o-transition: .2s;
+	        -ms-transition: .2s;
+	        -moz-transition: .2s;
+	        -webkit-transition: .2s;
+		}
+		#c1:hover,#c2:hover,#c3:hover{
+			color: #222;
+			text-shadow: 1px 1px 1px #222;
+		}
+		#hot1,#hot2,#hot3,#result{
+			width: 80%;
+			margin: 0 auto;
+			border-left: 3px solid #bbb;
+			border-right: 3px solid #bbb;
+		}
+		#hot2,#hot3{
+			display: none;
+		}
+		.up{
+			padding: 15px;
+			position: relative;
+			min-height: 135px;
+			color: #444;
+			border-bottom: 2px solid #bbb;
+		}
+		.face{
+			width: 135px;
+			height: 135px;
+			background-size: cover;
+			top: 16px;
+			left: 21px;
+			border-radius: 7px;
+			position: absolute;
+			transition: .2s;
+	        -o-transition: .2s;
+	        -ms-transition: .2s;
+	        -moz-transition: .2s;
+	        -webkit-transition: .2s;
+		}
+		.face:hover{
+			width: 137px;
+			height: 137px;
+			top: 15px;
+			left: 20px;
+			border-radius: 9px;
+			box-shadow: 4px 4px 8px #444;
+		}
+		.info{
+			margin-left: 160px;
+			clear: both;
+		}
+		.info a{
+			color: #222;
+			text-decoration: none;
+			font-weight: bolder;
+			font-size: 1.2em;
+			margin-right: 3px;
+			transition: .2s;
+	        -o-transition: .2s;
+	        -ms-transition: .2s;
+	        -moz-transition: .2s;
+	        -webkit-transition: .2s;
+		}
+		.info a:visited{
+			color: #222;
+		}
+		.info a:hover{
+			color: #222;
+			text-shadow: 1px 1px 1px #333;
+		}
+		.name,.sign{
+			padding: 0 5px;
+		}
+		.icon{
+			background-image: url(https://s1.hdslb.com/bfs/static/space/icons10.04e1.png);
+			background-repeat: no-repeat;
+			display: inline-block;
+			vertical-align: middle;
+		}
+		.sex{
+			width: 21px;
+			height: 25px;
+			margin-right: 3px;
+		}
+		.male{
+			background-position: -212px -471px;
+		}
+		.female{
+			background-position: -212px -403px;
+		}
+		.other{
+			width: 26px;
+			height: 21px;
+			margin-left: 3px; 
+		}
+		.category{
+			background-size: 3500%;
+			background-position: -765px -312px;
+		}
+		.video{
+			background-size: 3500%;
+			background-position: -6px -10px;
+		}
+		.playNum{
+			background-size: 3500%;
+			background-position: -6px -48px;
+		}
+		.fans{
+			background-size: 3500%;
+			background-position: -6px -86px;
+		}
+		.follow{
+			background-size: 5000%;
+			background-position: -13px -453px;
+		}
+		.regtime{
+			background-size: 5000%;
+			background-position: -176px -73px;
+		}
+		.birth{
+			background-size: 5000%;
+			background-position: -176px -234px;
+		}
+		.place{
+			background-size: 5000%;
+			background-position: -176px -180px;
+		}
+		.tag{
+			background-size: 3500%;
+			background-position: -5px -124px;
+		}
+		.level{
+			background-image: url(data:image/png;base64,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);
+			background-repeat: no-repeat;
+			display: inline-block;
+			vertical-align: middle;
+			width: 30px;
+			height: 25px;
+		}
+		.level[lv="0"]{
+			background-position: -21px -7px;
+		}
+		.level[lv="1"]{
+			background-position: -21px -43px;
+		}
+		.level[lv="2"]{
+			background-position: -21px -79px;
+		}
+		.level[lv="3"]{
+			background-position: -21px -115px;
+		}
+		.level[lv="4"]{
+			background-position: -21px -151px;
+		}
+		.level[lv="5"]{
+			background-position: -21px -187px;
+		}
+		.level[lv="6"]{
+			background-position: -21px -223px;
+		}
+		.sign{
+			font-size: 0.8em;
+			color: #222;
+		}
+		.detail{
+		}
+		.detailrz{
+			position: relative;
+		}
+		.renzhen{
+			top: 0;
+			left: 0;
+			position: absolute;
+			background-size: 4000%;
+			background-position: -355px -660px;
+		}
+		.description{
+			margin-left: 28px;
+			line-height: 22px;
+		}
+		.tags>span{
+			white-space: nowrap;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<script>
+		var a=document.getElementById("a7");
+		a.className="disabled";
+		a.href="#";
+	</script>
+	<div id="search">
+		<input type="text" name="keyword" placeholder="请输入up主昵称">
+		<div id="submit">搜索</div>
+		<div id="message">给个关键词呗~~</div>
+		<div id="c0">
+			<div id="c1">粉丝数</div> |
+			<div id="c2">播放量</div> |
+			<div id="c3">视频数</div>
+		</div>
+	</div>
+	<div id="contant">
+		<div id="hot1">
+		{% for up in ups.fans %}
+			<div class="up">
+			{% set url='https://space.bilibili.com/'~up.id %}
+				<a href="{{url}}" target="_blank">
+				{% set face='img/'~up.id~'.jpg' %}
+					<div class="face" style="background-image: url({{url_for('static',filename=face)}});"></div>
+				</a>
+				<div class="info">
+					<div class="name">
+						<a href="{{up.id}}" target="_blank">{{up.name}}</a>
+						{% if up.sex==1 %}
+						<span class="icon sex male"></span>
+						{% endif %}
+						{% if up.sex==2 %}
+						<span class="icon sex female"></span>
+						{% endif %}
+						<span class="level" lv="{{up.level}}"></span>
+					</div>
+					<div class="sign">{{up.sign}}</div>
+					<div class="detail">
+						<span class="icon other category" title="类型"></span>{{up.category}}
+						<span class="icon other video" title="视频数"></span>{{up.video}}
+						<span class="icon other playNum" title="播放量"></span>{{up.playNum}}
+						<span class="icon other fans" title="粉丝数"></span>{{up.fans}}
+						<span class="icon other follow" title="关注数"></span>{{up.follow}}
+					</div>
+					{% if up.description %}
+					<div class="detailrz">
+						<span class="icon other renzhen" title="个人认证"></span>
+						<div class="description">{{up.description}}</div>
+					</div>
+					{% endif %}
+					{% if up.regtime %}
+					<div class="detail">
+						<span class="icon other regtime" title="注册时间"></span>{{up.regtime}}
+						<span class="icon other birth" title="生日"></span>{{up.birth}}
+						{% if up.place %}
+						<span class="icon other place" title="所在地"></span>{{up.place}}
+						{% endif %}
+					</div>
+					{% endif %}
+					{% if up.tags.0 %}
+					<div class="tags">
+					{% for tag in up.tags %}
+						<span><span class="icon other tag" title="标签"></span>{{tag}}</span>
+					{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		{% endfor %}
+		</div>
+		<div id="hot2">
+		{% for up in ups.playNum %}
+			<div class="up">
+			{% set url='https://space.bilibili.com/'~up.id %}
+				<a href="{{url}}" target="_blank">
+				{% set face='img/'~up.id~'.jpg' %}
+					<div class="face" style="background-image: url({{url_for('static',filename=face)}});"></div>
+				</a>
+				<div class="info">
+					<div class="name">
+						<a href="{{up.id}}" target="_blank">{{up.name}}</a>
+						{% if up.sex==1 %}
+						<span class="icon sex male"></span>
+						{% endif %}
+						{% if up.sex==2 %}
+						<span class="icon sex female"></span>
+						{% endif %}
+						<span class="level" lv="{{up.level}}"></span>
+					</div>
+					<div class="sign">{{up.sign}}</div>
+					<div class="detail">
+						<span class="icon other category" title="类型"></span>{{up.category}}
+						<span class="icon other video" title="视频数"></span>{{up.video}}
+						<span class="icon other playNum" title="播放量"></span>{{up.playNum}}
+						<span class="icon other fans" title="粉丝数"></span>{{up.fans}}
+						<span class="icon other follow" title="关注数"></span>{{up.follow}}
+					</div>
+					{% if up.description %}
+					<div class="detailrz">
+						<span class="icon other renzhen" title="个人认证"></span>
+						<div class="description">{{up.description}}</div>
+					</div>
+					{% endif %}
+					{% if up.regtime %}
+					<div class="detail">
+						<span class="icon other regtime" title="注册时间"></span>{{up.regtime}}
+						<span class="icon other birth" title="生日"></span>{{up.birth}}
+						{% if up.place %}
+						<span class="icon other place" title="所在地"></span>{{up.place}}
+						{% endif %}
+					</div>
+					{% endif %}
+					{% if up.tags.0 %}
+					<div class="tags">
+					{% for tag in up.tags %}
+						<span><span class="icon other tag" title="标签"></span>{{tag}}</span>
+					{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		{% endfor %}
+		</div>
+		<div id="hot3">
+		{% for up in ups.video %}
+			<div class="up">
+			{% set url='https://space.bilibili.com/'~up.id %}
+				<a href="{{url}}" target="_blank">
+				{% set face='img/'~up.id~'.jpg' %}
+					<div class="face" style="background-image: url({{url_for('static',filename=face)}});"></div>
+				</a>
+				<div class="info">
+					<div class="name">
+						<a href="{{up.id}}" target="_blank">{{up.name}}</a>
+						{% if up.sex==1 %}
+						<span class="icon sex male"></span>
+						{% endif %}
+						{% if up.sex==2 %}
+						<span class="icon sex female"></span>
+						{% endif %}
+						<span class="level" lv="{{up.level}}"></span>
+					</div>
+					<div class="sign">{{up.sign}}</div>
+					<div class="detail">
+						<span class="icon other category" title="类型"></span>{{up.category}}
+						<span class="icon other video" title="视频数"></span>{{up.video}}
+						<span class="icon other playNum" title="播放量"></span>{{up.playNum}}
+						<span class="icon other fans" title="粉丝数"></span>{{up.fans}}
+						<span class="icon other follow" title="关注数"></span>{{up.follow}}
+					</div>
+					{% if up.description %}
+					<div class="detailrz">
+						<span class="icon other renzhen" title="个人认证"></span>
+						<div class="description">{{up.description}}</div>
+					</div>
+					{% endif %}
+					{% if up.regtime %}
+					<div class="detail">
+						<span class="icon other regtime" title="注册时间"></span>{{up.regtime}}
+						<span class="icon other birth" title="生日"></span>{{up.birth}}
+						{% if up.place %}
+						<span class="icon other place" title="所在地"></span>{{up.place}}
+						{% endif %}
+					</div>
+					{% endif %}
+					{% if up.tags.0 %}
+					<div class="tags">
+					{% for tag in up.tags %}
+						<span><span class="icon other tag" title="标签"></span>{{tag}}</span>
+					{% endfor %}
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		{% endfor %}
+		</div>
+		<div id="result"></div>
+	</div>
+	<script type="text/javascript">
+		var contant=$('#contant > div');
+		var msg=$('#message');
+		$('#c0 div').click(function(){
+			contant.hide();
+			var i=$(this).index();
+			contant.eq(i).show();
+		});
+		$('#submit').click(function(){
+			var keyword=$('input[name="keyword"]').val();
+			if (keyword=='') {
+				msg.hide().html("给个关键词呗~~").fadeIn();
+				contant.eq(0).show();
+			}else{
+				$.ajax({
+					url: '{{url_for("keyword")}}',
+					type: 'POST',
+					data: { keyword : keyword },
+					dataType: 'json',
+					error: function(){},
+					success:function(data){
+						var ups=data['ups'];
+						if (ups.length==0) {
+							msg.html('木有找到~~').fadeIn();
+						}else{
+							msg.hide();
+							msg.html('共'+ups.length+'条结果').fadeIn();
+							var result=$('#result');
+							result.empty();
+							for (var i=0;i<ups.length;i++) { 
+								var item='<div class="up"><a href="https://space.bilibili.com/'+ups[i].id+'" target="_blank"><div class="face" style="background-image: url(../static/img/'+ups[i].id+'.jpg);"></div></a><div class="info"><div class="name"><a href="https://space.bilibili.com/'+ups[i].id+'" target="_blank">'+ups[i].name+'</a>';
+								if (ups[i].sex==1) {
+									item+='<span class="icon sex male"></span>';
+								}else if (ups[i].sex==2) {
+									item+='<span class="icon sex female"></span>';
+								}
+								item+='<span class="level" lv="'+ups[i].level+'"></span></div><div class="sign">'+ups[i].sign+'</div><div class="detail"><span class="icon other category" title="类型"></span>'+ups[i].category+' <span class="icon other video" title="视频数"></span>'+ups[i].video+' <span class="icon other playNum" title="播放量"></span>'+ups[i].playNum+' <span class="icon other fans" title="粉丝数"></span>'+ups[i].fans+' <span class="icon other follow" title="关注数"></span>'+ups[i].follow+'</div>';
+								if (ups[i].description) {
+									item+='<div class="detailrz"><span class="icon other renzhen" title="个人认证"></span><div class="description">'+ups[i].description+'</div></div>';
+								}
+								if (ups[i].regtime) {
+									item+='<div class="detail"><span class="icon other regtime" title="注册时间"></span>'+ups[i].regtime+' <span class="icon other birth" title="生日"></span>'+ups[i].birth;
+									if (ups[i].place) {
+										item+=' <span class="icon other place" title="所在地"></span>'+ups[i].place;
+									}
+									item+='</div>';
+								}
+								if (ups[i].tags[0]) {
+									item+='<div class="tags">';
+									for (var j=0;j<ups[i].tags.length;j++) {
+										item+='<span><span class="icon other tag" title="标签"></span>'+ups[i].tags[j]+'</span>';
+									}
+									item+='</div>';
+								}
+								item+='</div></div>';
+								result.append(item);
+							}
+							contant.hide();
+							$('#result').show();
+						}
+					}
+				});
+			}
+		});
+	</script>
+{% endblock %}

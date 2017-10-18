@@ -1,0 +1,336 @@
+{% extends 'layout.html' %}
+
+{% block style %}
+	<style>
+		#Line{
+			display: inline-block;
+			width: 80%;
+			height: 600px;
+		}
+		main p{
+			max-width: 70%;
+			margin: 0 auto;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<script>
+		var a=document.getElementById("a5");
+		a.className="disabled";
+		a.href="#";
+	</script>
+	<div id="Line"></div>
+	<p>图中有两处比较奇怪：其一，2011年3月到2012年2月各条曲线都出现了明显的锯齿形，好几个月份整个B站没有诞生一位up主大佬，我猜测这段时间的B站没有放开注册条件，锯齿形与其每月的注册要求有关；其二，在2013年5、6月突然冒出了好多大佬，不知道具体原因，但是这段时间涌现的up主非常多。除开这两点以外，各条曲线都基本符合我的预想，即：刚开始B站不火，注册条件难所以出现的up主较少；最近的一段时间也因为新注册的up主还没有成长起来，视频数与粉丝都不够，所以人数也较少；而人数最多的时候出现在中间的某个时段。从图中可以看出，这个人数最多的时段就是2015年7月前后。</p>
+	<br>
+	<script type="text/javascript">
+		var ups=eval('({{ups|safe}})')['ups'];
+		var Line=echarts.init(document.getElementById('Line'));
+		Line.setOption({
+	        title: {
+	            text: '各类up主的注册时间',          
+	            x: 'center',
+	            padding: [10, 10, 10, 10],
+	            textStyle: {
+	            	fontSize: 24
+	            }
+	        },
+	        tooltip: {
+	            trigger: 'item',
+	            formatter: function(params) {
+	                return params.seriesName + '<br>' + params.name + '：' + params.value[1] + '人';
+	            }
+	        },
+	        grid: {
+	        	show: true,
+	        	left: '12%',
+	        },
+	        backgroundColor: '#888',
+	        legend: {
+	        	left: 'left',
+	        	orient: 'vertical',
+	        	top: 60,
+	        	data: ['全站','游戏','生活','动画','音乐','娱乐','科技','电视剧','舞蹈','时尚','鬼畜','电影','番剧','国创','广告'],
+	        	textStyle: {
+	        		fontSize: 14,
+	        		fontWeight: 'bold'
+	        	}
+	        },
+	        xAxis: [{
+	            type: 'time',
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontSize: 14,
+	            	fontWeight: 'bold',
+	            }
+	        }],
+	        yAxis: [{
+	            type: 'value',
+	            name: '各区人数',
+	            max: 140,
+	            splitNumber: 20,
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontSize: 14,
+	            	fontWeight: 'bold',
+	            },
+	            nameTextStyle: {
+	        		fontSize: 14,
+	        		fontWeight: 'bold'
+	        	}
+	        },{
+	            type: 'value',
+	            name: '全站人数',
+	            splitNumber: 10,
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontSize: 14,
+	            	fontWeight: 'bold',
+	            },
+	            nameTextStyle: {
+	        		fontSize: 14,
+	        		fontWeight: 'bold'
+	        	}
+	        }],
+	        series: [{
+	            name: '游戏',
+	            type: 'line',
+	            symbol: 'point',
+	            data: ups.游戏,
+	            itemStyle: {
+	            	normal: {
+	            		color: '#bf444c'
+	            	}
+	            },
+	            lineStyle: {
+	            	normal: {
+	            		color: '#bf444c'
+	            	}
+	            }
+	        },{
+	            name: '生活',
+	            type: 'line',
+	            symbol: 'point',
+	            data: ups.生活,
+	            itemStyle: {
+	            	normal: {
+	            		color: '#c95d2f'
+	            	}
+	            },
+	            lineStyle: {
+	            	normal: {
+	            		color: '#c95d2f'
+	            	}
+	            }
+	        },{
+	            name: '动画',
+	            type: 'line',
+	            symbol: 'point',
+	            data: ups.动画,
+	            itemStyle: {
+	            	normal: {
+	            		color: '#d88273'
+	            	}
+	            },
+	            lineStyle: {
+	            	normal: {
+	            		color: '#d88273'
+	            	}
+	            }
+	        },{
+	            name: '音乐',
+	            type: 'line',
+	            symbol: 'point',
+	            data: ups.音乐,
+	            itemStyle: {
+	            	normal: {
+	            		color: '#c4af3c'
+	            	}
+	            },
+	            lineStyle: {
+	            	normal: {
+	            		color: '#c4af3c'
+	            	}
+	            }
+	        },{
+	            name: '娱乐',
+	            type: 'line',
+	            symbol: 'point',
+	            data: ups.娱乐,
+	            itemStyle: {
+	            	normal: {
+	            		color: '#f6efa6'
+	            	}
+	            },
+	            lineStyle: {
+	            	normal: {
+	            		color: '#f6efa6'
+	            	}
+	            }
+	        },{
+	            name: '科技',
+	            type: 'line',
+	            symbol: 'point',
+	            data: ups.科技,
+	            itemStyle: {
+	            	normal: {
+	            		color: '#9ac226'
+	            	}
+	            },
+	            lineStyle: {
+	            	normal: {
+	            		color: '#9ac226'
+	            	}
+	            }
+	        },{
+	            name: '电视剧',
+	            type: 'line',
+	            symbol: 'point',
+	            data: ups.电视剧,
+	            itemStyle: {
+	            	normal: {
+	            		color: '#2d991c'
+	            	}
+	            },
+	            lineStyle: {
+	            	normal: {
+	            		color: '#2d991c'
+	            	}
+	            }
+	        },{
+	            name: '舞蹈',
+	            type: 'line',
+	            symbol: 'point',
+	            data: ups.舞蹈,
+	            itemStyle: {
+	            	normal: {
+	            		color: '#27bf80'
+	            	}
+	            },
+	            lineStyle: {
+	            	normal: {
+	            		color: '#27bf80'
+	            	}
+	            }
+	        },{
+	            name: '时尚',
+	            type: 'line',
+	            symbol: 'point',
+	            data: ups.时尚,
+	            itemStyle: {
+	            	normal: {
+	            		color: '#27adbf'
+	            	}
+	            },
+	            lineStyle: {
+	            	normal: {
+	            		color: '#27adbf'
+	            	}
+	            }
+	        },{
+	            name: '鬼畜',
+	            type: 'line',
+	            symbol: 'point',
+	            data: ups.鬼畜,
+	            itemStyle: {
+	            	normal: {
+	            		color: '#277fbf'
+	            	}
+	            },
+	            lineStyle: {
+	            	normal: {
+	            		color: '#277fbf'
+	            	}
+	            }
+	        },{
+	            name: '电影',
+	            type: 'line',
+	            symbol: 'point',
+	            data: ups.电影,
+	            itemStyle: {
+	            	normal: {
+	            		color: '#222fad'
+	            	}
+	            },
+	            lineStyle: {
+	            	normal: {
+	            		color: '#222fad'
+	            	}
+	            }
+	        },{
+	            name: '番剧',
+	            type: 'line',
+	            symbol: 'point',
+	            data: ups.番剧,
+	            itemStyle: {
+	            	normal: {
+	            		color: '#7a55c9'
+	            	}
+	            },
+	            lineStyle: {
+	            	normal: {
+	            		color: '#7a55c9'
+	            	}
+	            }
+	        },{
+	            name: '国创',
+	            type: 'line',
+	            symbol: 'point',
+	            data: ups.国创,
+	            itemStyle: {
+	            	normal: {
+	            		color: '#a632cf'
+	            	}
+	            },
+	            lineStyle: {
+	            	normal: {
+	            		color: '#a632cf'
+	            	}
+	            }
+	        },{
+	            name: '广告',
+	            type: 'line',
+	            symbol: 'point',
+	            data: ups.广告,
+	            itemStyle: {
+	            	normal: {
+	            		color: '#bf2193'
+	            	}
+	            },
+	            lineStyle: {
+	            	normal: {
+	            		color: '#bf2193'
+	            	}
+	            }
+	        },{
+	            name: '全站',
+	            type: 'line',
+	            symbol: 'point',
+	            yAxisIndex: 1,
+	            data: ups.all,
+	            itemStyle: {
+	            	normal: {
+	            		color: '#ddd'
+	            	}
+	            },
+	            lineStyle: {
+	            	normal: {
+	            		color: '#ddd'
+	            	}
+	            }
+	        }],
+	    });
+	</script>
+{% endblock %}

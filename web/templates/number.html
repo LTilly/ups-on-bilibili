@@ -1,0 +1,464 @@
+{% extends 'layout.html' %}
+
+{% block style %}
+	<script src="http://echarts.baidu.com/resource/echarts-gl-latest/dist/echarts-gl.min.js"></script>
+	<style>
+		#v2fDot,#v2pDot,#p2fDot{
+			display: inline-block;
+			width: 70%;
+			height: 400px;
+		}
+		#Dot3d{
+			display: inline-block;
+			width: 80%;
+			height: 450px;
+		}
+		main p{
+			max-width: 50%;
+			margin: 0 auto;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<script>
+		var a=document.getElementById("a4");
+		a.className="disabled";
+		a.href="#";
+	</script>
+	<div id="v2fDot"></div>
+	<p>本来是期待一个不明显的正相关关系的，结果并没有，这充分说明了仅仅靠多出视频是不会涨粉丝的，肝不改命啊！这个社会真残酷！！你看有些大佬up主视频数就百来部，粉丝却有1mol。唉。。。哼！一定是他们删视频了！</p>
+	<br>
+	<div id="v2pDot"></div>
+	<p>正相关关系依旧没有，肝不仅涨不了粉丝，连播放量都涨不了了吗。。。真的好心疼那些在右下角的up主。。。</p>
+	<br>
+	<div id="p2fDot"></div>
+	<p>终于看出正相关性了，说明粉丝多的up主的视频看的人多，看的人多了视频被顶上首页又招来更多粉丝，粉丝越多播放量就越高。</p>
+	<br>
+	<div id="Dot3d"></div>
+	<p>第一次尝试做3D图啦，嘻嘻。。。就是axisPointer中formatter函数的参数好奇怪。。。。嘛，还不错。</p>
+	<br>
+	<script type="text/javascript">
+		var ups=eval('({{ups|safe}})')['ups'];
+		var v2fDot=echarts.init(document.getElementById('v2fDot'));
+		v2fDot.setOption({
+	    	title: {
+	            text: '视频数-粉丝数关系',          
+	            x: 'center',
+	            padding: [10, 10, 10, 10],
+	            textStyle: {
+	            	fontSize: 24
+	            }
+	        },
+	        tooltip: {
+	            trigger: 'item',
+	            formatter: function(params) {
+	                return params.seriesName + '<br/>' + params.value[0] + '部 ' + params.value[1] + '人';
+	            },
+	            axisPointer: {
+	                show: true,
+	                type: 'cross',
+	                lineStyle: {
+	                    type: 'dashed',
+	                    width: 1
+	                }
+	            }
+	        },
+	        xAxis: {
+	            type: 'value',
+	            name: '视频数',
+	            nameTextStyle: {
+	            	fontWeight: 'bold',
+	            	fontSize: 16,
+	            },
+	            min: 0,
+	            max: 6000,
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontWeight: 'bold',
+	            	fontSize: 14,
+	            },
+	            axisPointer: {
+	            	label: {
+	            		precision: 0,
+	            	}
+	            },
+	        },
+	        yAxis: {
+	            type: 'value',
+	            name: '粉丝数',
+	            nameTextStyle: {
+	            	fontWeight: 'bold',
+	            	fontSize: 16,
+	            },
+	            min: 0,
+	            max: 2500000,
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontWeight: 'bold',
+	            	fontSize: 14,
+	            },
+	            axisPointer: {
+	            	label: {
+	            		precision: 0,
+	            	}
+	            },
+	        },
+	        series: {
+	            name: '视频数-粉丝数',
+	            type: 'scatter',
+	            data: ups,
+	            itemStyle: {
+	            	normal: {
+	            		opacity: 0.4,
+	            	}
+	            },
+	            encode: {
+	            	x: 0,
+	            	y: 2,
+	            }	        
+	        },
+	    });
+	    var v2pDot=echarts.init(document.getElementById('v2pDot'));
+		v2pDot.setOption({
+	    	title: {
+	            text: '视频数-播放量关系',          
+	            x: 'center',
+	            padding: [10, 10, 10, 10],
+	            textStyle: {
+	            	fontSize: 24
+	            }
+	        },
+	        tooltip: {
+	            trigger: 'item',
+	            formatter: function(params) {
+	                return params.seriesName + '<br/>' + params.value[0] + '部 ' + params.value[1] + '次';
+	            },
+	            axisPointer: {
+	                show: true,
+	                type: 'cross',
+	                lineStyle: {
+	                    type: 'dashed',
+	                    width: 1
+	                }
+	            }
+	        },
+	        xAxis: {
+	            type: 'value',
+	            name: '视频数',
+	            nameTextStyle: {
+	            	fontWeight: 'bold',
+	            	fontSize: 16,
+	            },
+	            min: 0,
+	            max: 6000,
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontWeight: 'bold',
+	            	fontSize: 14,
+	            },
+	            axisPointer: {
+	            	label: {
+	            		precision: 0,
+	            	}
+	            },
+	        },
+	        yAxis: {
+	            type: 'value',
+	            name: '播放量',
+	            nameTextStyle: {
+	            	fontWeight: 'bold',
+	            	fontSize: 16,
+	            },
+	            min: 0,
+	            max: 300000000,
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontWeight: 'bold',
+	            	fontSize: 14,
+	            	formatter: function(value,index){
+	            		return value/10000+'万';
+	            	}
+	            },
+	            axisPointer: {
+	            	label: {
+	            		precision: 0,
+	            	}
+	            },
+	        },
+	        series: {
+	            name: '视频数-播放量',
+	            type: 'scatter',
+	            data: ups,
+	            itemStyle: {
+	            	normal: {
+	            		opacity: 0.4,
+	            	}
+	            },
+	            encode: {
+	            	x: 0,
+	            	y: 1,
+	            }	        
+	        },
+	    });
+	    var p2fDot=echarts.init(document.getElementById('p2fDot'));
+		p2fDot.setOption({
+	    	title: {
+	            text: '播放量-粉丝数关系',          
+	            x: 'center',
+	            padding: [10, 10, 10, 10],
+	            textStyle: {
+	            	fontSize: 24
+	            }
+	        },
+	        tooltip: {
+	            trigger: 'item',
+	            formatter: function(params) {
+	                return params.seriesName + '<br/>' + params.value[0] + '次 ' + params.value[1] + '人';
+	            },
+	            axisPointer: {
+	                show: true,
+	                type: 'cross',
+	                lineStyle: {
+	                    type: 'dashed',
+	                    width: 1
+	                }
+	            }
+	        },
+	        xAxis: {
+	            type: 'value',
+	            name: '播放量',
+	            nameTextStyle: {
+	            	fontWeight: 'bold',
+	            	fontSize: 16,
+	            },
+	            min: 0,
+	            max: 250000000,
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontWeight: 'bold',
+	            	fontSize: 14,
+	            },
+	            axisPointer: {
+	            	label: {
+	            		precision: 0,
+	            	}
+	            },
+	        },
+	        yAxis: {
+	            type: 'value',
+	            name: '粉丝数',
+	            nameTextStyle: {
+	            	fontWeight: 'bold',
+	            	fontSize: 16,
+	            },
+	            min: 0,
+	            max: 2500000,
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontWeight: 'bold',
+	            	fontSize: 14,
+	            },
+	            axisPointer: {
+	            	label: {
+	            		precision: 0,
+	            	}
+	            },
+	        },
+	        series: {
+	            name: '播放量-粉丝数',
+	            type: 'scatter',
+	            data: ups,
+	            itemStyle: {
+	            	normal: {
+	            		opacity: 0.4,
+	            	}
+	            },
+	            encode: {
+	            	x: 1,
+	            	y: 2,
+	            }	        
+	        },
+	    });
+	    var Dot3d=echarts.init(document.getElementById('Dot3d'));
+		Dot3d.setOption({
+		    title: {
+		        text: '视频数-播放量-粉丝数关系',          
+		        x: 'center',
+		        padding: [10, 10, 10, 10],
+		        textStyle: {
+		        	fontSize: 24
+		        }
+		    },
+		    tooltip: {
+		        trigger: 'item',
+		        formatter: function(params) {
+		            return '视频数 : '+params.value[0]+'部'+'<br/>'+'播放量 : '+params.value[1]+'次'+'<br/>'+'粉丝数 : '+params.value[2]+'人';
+		        },
+		        axisPointer: {
+		            show: true,
+		            type: 'cross',
+		            lineStyle: {
+		                type: 'dashed',
+		                width: 1
+		            }
+		        }
+		    },
+		    xAxis3D: {
+		        type: 'value',
+		        name: '视频数',
+		        nameTextStyle: {
+		        	fontWeight: 'bold',
+		        	fontSize: 16,
+		        },
+		        min: 0,
+			    max: 6000,
+			    axisLine: {
+			    	lineStyle: {
+			    		width: 2,
+			    	}
+			    },
+			    axisLabel: {
+			    	fontWeight: 'bold',
+			    	fontSize: 14,
+			    },
+			    axisPointer: {
+			    	label: {
+			    		precision: 0,
+			    		formatter: function(value,n){
+		        			x=value.indexOf('.');
+		        			if(x!=-1){
+		        				value=value.substring(0,x);
+		        			}
+		        			if(value.length<4){
+		        				return parseInt(value).toFixed(0)+'';
+		        			}
+		        			else{
+		        				return (parseInt(value)*1000+parseInt(value.substr(2,3))).toFixed(0)+'';
+		        			}       			
+		        		},
+			    	}
+			    },
+		    },
+		    yAxis3D: {
+		        type: 'value',
+		        name: '播放量',
+		        nameTextStyle: {
+		        	fontWeight: 'bold',
+		        	fontSize: 16,
+		        },
+		        min: 0,
+		        max: 250000000,
+		        axisLine: {
+		        	lineStyle: {
+		        		width: 2,
+		        	}
+		        },
+		        axisLabel: {
+		        	fontWeight: 'bold',
+		        	fontSize: 14,
+		        	formatter: function(value,index){
+			            return value/100000000+'亿';
+			        }
+		        },
+		        axisPointer: {
+		        	label: {
+		        		formatter: function(value,n){
+		        			return (parseInt(value)/100).toFixed(2)+'亿';
+		        		},
+		        	}
+		        },
+		    },
+		    zAxis3D: {
+		        type: 'value',
+		        name: '粉丝数',
+		        nameTextStyle: {
+		        	fontWeight: 'bold',
+		        	fontSize: 16,
+		        },
+		        min: 0,
+		        max: 2500000,
+		        axisLine: {
+		        	lineStyle: {
+		        		width: 2,
+		        	}
+		        },
+		        axisLabel: {
+		        	fontWeight: 'bold',
+		        	fontSize: 14,
+		        	formatter: function(value,index){
+			            return value/10000+'万';
+			        }
+		        },
+		        axisPointer: {
+		        	label: {
+		        		formatter: function(value,n){
+		        			x=value.indexOf('.');
+		        			if(x!=-1){
+		        				value=value.substring(0,x);
+		        			}
+		        			if(value.length<8){
+		        				return (parseInt(value)/10).toFixed(0)+'万';
+		        			}
+		        			else{
+		        				return (parseInt(value)*100+parseInt(value.substr(2,3))/10).toFixed(0)+'万';
+		        			}       			
+		        		},
+		        	}
+		        },
+		    },
+		    grid3D: {
+		        boxWidth: 200,
+		        boxDepth: 80,
+		        light: {
+		            main: {
+		                intensity: 1.2
+		            },
+		            ambient: {
+		                intensity: 0.3
+		            }
+		        }
+		    },
+		    series: [{
+		        type: 'scatter3D',
+		        data: ups,
+		        shading: 'color',
+		        label: {
+		            show: false,
+		            textStyle: {
+		                fontSize: 16,
+		                borderWidth: 1
+		            }
+		        },        
+		        itemStyle: {
+		            opacity: 0.4,
+		            
+		        },
+		    }]
+		});
+	</script>
+{% endblock %}

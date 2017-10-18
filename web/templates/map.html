@@ -1,0 +1,272 @@
+{% extends 'layout.html' %}
+
+{% block style %}
+	<script src="{{url_for('static',filename='js/customed.js')}}"></script>
+	<script src="{{url_for('static',filename='js/china.js')}}"></script>
+	<style>
+		#numMap,#levMap,#vidMap,#folMap,#fanMap,#plaMap{
+			display: inline-block;
+			width: 60%;
+			height: 350px;
+		}
+		main p{
+			max-width: 50%;
+			margin: 0 auto;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<script>
+		var a=document.getElementById("a2");
+		a.className="disabled";
+		a.href="#";
+	</script>
+	<div id="numMap"></div>
+	<p>基本和中国人口分布是一致滴，北上广的up主大佬是最多滴，尤其是Bilibili的大本营上海，居然有1377人。其次就是紧挨着大本营的浙江、江苏两个省。而人口少的省市区，up主自然也少，其中青海仅有3人。</p>
+	<br>
+	<div id="levMap"></div>
+	<p>等级看起来各地都差不多，最高的是宁夏，有4.9231，倒数第三广东也有4.6292。但是最后两名是怎么回事呀？台湾省平均等级4.529，可能是人家不怎么玩Bilibili，但是河南又是为什么呢？之前那六个等级不到2的up主都没有填写所在地的，所以。。。。不是很明白。。。。</p>
+	<br>
+	<div id="vidMap"></div>
+	<p>视频数最高的青海人均165.3333部，比排第二137.9877部的上海高出好多，青海的up最勤奋了呢。相比之下，山西以明显的优势垫底，人均没有70部。山西的各位up主，你看看人家青海，哼！</p>
+	<br>
+	<div id="folMap"></div>
+	<p>没想到关注人数差得亭明显的，最多的西藏和陕西都平均关注了125名以上的up主。而宁夏最不积极，只平均关注了44来人，第二少的是北京，也没有上50。</p>
+	<br>
+	<div id="fanMap"></div>
+	<p>嗯。。。青海的up粉丝最少诶，才2254，他们不是最勤奋的吗！好心疼他们呀。粉丝最多的是台湾，有3万5千多人，额。。。刚还说人家不怎么玩Bilibili来的。其次是四川省，也有3万多人，鼓掌！</p>
+	<br>
+	<div id="plaMap"></div>
+	<p>播放量最多竟然是西藏，竟然有600多万呐，查看了一下，有个1500多万，一个900多万，虽然不是up主里最多的，但是他们人少啊。。。而上海那么多人，也有近400万，不愧是大本营。最少的是新疆，有60多万。</p>
+	<br>
+	<script type="text/javascript">
+		var places=[{'num': 1280, 'playNum': 2890017.9625, 'level': 4.6477, 'follow': 49.4625, 'fans': 29394.0297, 'video': 115.8656, 'sex': 1.3882, 'name': '北京'}, {'num': 1377, 'playNum': 3992849.6485, 'level': 4.8148, 'follow': 65.1046, 'fans': 32391.7712, 'video': 137.9877, 'sex': 1.3763, 'name': '上海'}, {'num': 178, 'playNum': 1477621.882, 'level': 4.7247, 'follow': 62.8539, 'fans': 16762.4551, 'video': 120.4607, 'sex': 1.381, 'name': '天津'}, {'num': 232, 'playNum': 2552973.556, 'level': 4.6724, 'follow': 61.1078, 'fans': 23569.4569, 'video': 85.1422, 'sex': 1.3678, 'name': '重庆'}, {'num': 1351, 'playNum': 1925277.6566, 'level': 4.6292, 'follow': 66.695, 'fans': 17910.3486, 'video': 118.7424, 'sex': 1.291, 'name': '广东'}, {'num': 352, 'playNum': 2482979.9886, 'level': 4.7642, 'follow': 64.9631, 'fans': 21166.7955, 'video': 122.3665, 'sex': 1.2639, 'name': '福建'}, {'num': 776, 'playNum': 2391723.4433, 'level': 4.7023, 'follow': 72.8892, 'fans': 25493.8389, 'video': 105.8222, 'sex': 1.348, 'name': '浙江'}, {'num': 772, 'playNum': 1724531.9702, 'level': 4.785, 'follow': 82.3718, 'fans': 20063.0557, 'video': 128.3705, 'sex': 1.3277, 'name': '江苏'}, {'num': 400, 'playNum': 1600248.025, 'level': 4.65, 'follow': 79.5475, 'fans': 18091.535, 'video': 106.92, 'sex': 1.2762, 'name': '山东'}, {'num': 253, 'playNum': 2530471.3162, 'level': 4.7549, 'follow': 75.7628, 'fans': 27632.004, 'video': 110.9921, 'sex': 1.2956, 'name': '辽宁'}, {'num': 125, 'playNum': 2697111.68, 'level': 4.832, 'follow': 77.56, 'fans': 22655.664, 'video': 97.232, 'sex': 1.1856, 'name': '江西'}, {'num': 528, 'playNum': 2446321.4186, 'level': 4.7481, 'follow': 64.4318, 'fans': 30289.0284, 'video': 78.1705, 'sex': 1.3286, 'name': '四川'}, {'num': 153, 'playNum': 1797870.3791, 'level': 4.8105, 'follow': 70.0523, 'fans': 17246.4641, 'video': 98.3137, 'sex': 1.2437, 'name': '陕西'}, {'num': 332, 'playNum': 2215887.8012, 'level': 4.7861, 'follow': 72.3373, 'fans': 23738.1295, 'video': 84.6114, 'sex': 1.3359, 'name': '湖北'}, {'num': 154, 'playNum': 1758545.4805, 'level': 4.5325, 'follow': 65.6558, 'fans': 19573.9935, 'video': 104.2597, 'sex': 1.246, 'name': '河南'}, {'num': 167, 'playNum': 2588879.988, 'level': 4.8443, 'follow': 73.1737, 'fans': 21001.7186, 'video': 132.4072, 'sex': 1.1778, 'name': '河北'}, {'num': 57, 'playNum': 1471569.8246, 'level': 4.6316, 'follow': 73.614, 'fans': 16739.9474, 'video': 68.4912, 'sex': 1.3265, 'name': '山西'}, {'num': 47, 'playNum': 1045047.4468, 'level': 4.766, 'follow': 87.7234, 'fans': 9958.7234, 'video': 91.8085, 'sex': 1.2308, 'name': '内蒙古'}, {'num': 94, 'playNum': 1395869.3617, 'level': 4.734, 'follow': 70.1702, 'fans': 11849.9894, 'video': 85.8404, 'sex': 1.3099, 'name': '吉林'}, {'num': 147, 'playNum': 3021905.7619, 'level': 4.8571, 'follow': 82.381, 'fans': 27258.9116, 'video': 77.3265, 'sex': 1.2857, 'name': '黑龙江'}, {'num': 194, 'playNum': 1840486.8866, 'level': 4.9021, 'follow': 96.3299, 'fans': 15829.6186, 'video': 117.634, 'sex': 1.2349, 'name': '安徽'}, {'num': 255, 'playNum': 1609483.0431, 'level': 4.6941, 'follow': 68.8745, 'fans': 19404.749, 'video': 75.5333, 'sex': 1.2813, 'name': '湖南'}, {'num': 167, 'playNum': 1505156.9521, 'level': 4.8263, 'follow': 74.1198, 'fans': 11985.5569, 'video': 95.5629, 'sex': 1.254, 'name': '广西'}, {'num': 45, 'playNum': 1895212.8444, 'level': 4.7111, 'follow': 90.9778, 'fans': 14392.6, 'video': 135.2667, 'sex': 1.3421, 'name': '海南'}, {'num': 93, 'playNum': 1660360.2688, 'level': 4.8495, 'follow': 89.9355, 'fans': 14734.7849, 'video': 102.1398, 'sex': 1.3433, 'name': '云南'}, {'num': 54, 'playNum': 1039052.9074, 'level': 4.6852, 'follow': 84.0, 'fans': 12357.3889, 'video': 75.0741, 'sex': 1.3171, 'name': '贵州'}, {'num': 5, 'playNum': 6016413.0, 'level': 4.8, 'follow': 125.6, 'fans': 12497.4, 'video': 76.4, 'sex': 1.25, 'name': '西藏'}, {'num': 22, 'playNum': 1713517.1818, 'level': 4.9091, 'follow': 125.4545, 'fans': 26256.4091, 'video': 127.2727, 'sex': 1.1429, 'name': '甘肃'}, {'num': 13, 'playNum': 1027599.0769, 'level': 4.9231, 'follow': 44.1538, 'fans': 11758.8462, 'video': 123.1538, 'sex': 1.1667, 'name': '宁夏'}, {'num': 3, 'playNum': 1105316.6667, 'level': 4.6667, 'follow': 72.6667, 'fans': 2254.0, 'video': 165.3333, 'sex': 2.0, 'name': '青海'}, {'num': 40, 'playNum': 625209.275, 'level': 4.675, 'follow': 72.4, 'fans': 7773.2, 'video': 117.825, 'sex': 1.3125, 'name': '新疆'}, {'num': 133, 'playNum': 1424536.5113, 'level': 4.609, 'follow': 66.3534, 'fans': 12810.3008, 'video': 107.218, 'sex': 1.398, 'name': '香港'}, {'num': 33, 'playNum': 892326.9394, 'level': 4.6667, 'follow': 137.7879, 'fans': 4432.4545, 'video': 115.0303, 'sex': 1.5714, 'name': '澳门'}, {'num': 138, 'playNum': 3599095.6087, 'level': 4.529, 'follow': 50.1449, 'fans': 35552.2246, 'video': 131.2246, 'sex': 1.3895, 'name': '台湾'}];
+		var num=[],level=[],video=[],follow=[],fans=[],playNum=[];
+		for(var i=0;i<places.length;i++){
+	    	num.push({name:places[i].name,value:places[i].num});
+	    	level.push({name:places[i].name,value:places[i].level});
+	    	video.push({name:places[i].name,value:places[i].video});
+	    	follow.push({name:places[i].name,value:places[i].follow});
+	    	fans.push({name:places[i].name,value:places[i].fans});
+	    	playNum.push({name:places[i].name,value:places[i].playNum});
+	    }
+	    var numMap=echarts.init(document.getElementById('numMap'));
+		numMap.setOption({
+			title: {
+		        text: '各地up人数统计',
+		        top: '5%',
+		        x: 'center',
+		        textStyle: {
+	            	fontSize: 24
+	            }
+		    },
+		    tooltip: {
+		        trigger: 'item',
+		        formatter: function (params) {
+		            return params.seriesName + '<br/>' + params.name + ' : ' + params.value+'人';
+		        }
+		    },
+		    visualMap: {
+		        min: 0,
+		        max: 1400,
+		        realtime: true,
+		        calculable: true,
+		        top: '30%',
+		        left: '15%',
+		        inRange: {
+		            color: ['lightskyblue','yellow','orangered','red']
+		        }
+		    },
+		    series: [{
+	            name: 'up人数',
+	            type: 'map',
+	            mapType: 'china',
+	            left: '35%',
+	            roam: true,
+	            data:num,
+		    }],
+		});
+		var levMap=echarts.init(document.getElementById('levMap'));
+		levMap.setOption({
+			title: {
+		        text: '各地up平均等级',
+		        top: '5%',
+		        x: 'center',
+		        textStyle: {
+	            	fontSize: 24
+	            }
+		    },
+		    tooltip: {
+		        trigger: 'item',
+		        formatter: function (params) {
+		            return params.seriesName + '<br/>' + params.name + ' : ' + params.value;
+		        }
+		    },
+		    visualMap: {
+		        min: 4.5,
+		        max: 5.0,
+		        realtime: true,
+		        calculable: true,
+		        top: '30%',
+		        left: '15%',
+		        inRange: {
+		            color: ['lightskyblue','yellow','orangered','red']
+		        },
+		        precision: 2
+		    },
+		    series: [{
+	            name: '平均等级',
+	            type: 'map',
+	            mapType: 'china',
+	            left: '35%',
+	            roam: true,
+	            data:level,
+		    }],
+		});
+	    var vidMap=echarts.init(document.getElementById('vidMap'));
+		vidMap.setOption({
+			title: {
+		        text: '各地up平均视频数',
+		        top: '5%',
+		        x: 'center',
+		        textStyle: {
+	            	fontSize: 24
+	            }
+		    },
+		    tooltip: {
+		        trigger: 'item',
+		        formatter: function (params) {
+		            return params.seriesName + '<br/>' + params.name + ' : ' + params.value+'部';
+		        }
+		    },
+		    visualMap: {
+		        min: 60,
+		        max: 170,
+		        realtime: false,
+		        calculable: true,
+		        top: '30%',
+		        left: '15%',
+		        inRange: {
+		            color: ['lightskyblue','yellow','orangered','red']
+		        }
+		    },
+		    series: [{
+	            name: '平均视频数',
+	            type: 'map',
+	            mapType: 'china',
+	            left: '35%',
+	            roam: true,
+	            data:video,
+		    }],
+		});
+	    var folMap=echarts.init(document.getElementById('folMap'));
+		folMap.setOption({
+			title: {
+		        text: '各地up关注人数',
+		        top: '5%',
+		        x: 'center',
+		        textStyle: {
+	            	fontSize: 24
+	            }
+		    },
+		    tooltip: {
+		        trigger: 'item',
+		        formatter: function (params) {
+		            return params.seriesName + '<br/>' + params.name + ' : ' + params.value+'人';
+		        }
+		    },
+		    visualMap: {
+		        min: 40,
+		        max: 130,
+		        realtime: false,
+		        calculable: true,
+		        top: '30%',
+		        left: '15%',
+		        inRange: {
+		            color: ['lightskyblue','yellow','orangered','red']
+		        }
+		    },
+		    series: [{
+	            name: '关注人数',
+	            type: 'map',
+	            mapType: 'china',
+	            left: '35%',
+	            roam: true,
+	            data:follow,
+		    }],
+		});
+	    var fanMap=echarts.init(document.getElementById('fanMap'));
+		fanMap.setOption({
+			title: {
+		        text: '各地up粉丝数统计',
+		        top: '5%',
+		        x: 'center',
+		        textStyle: {
+	            	fontSize: 24
+	            }
+		    },
+		    tooltip: {
+		        trigger: 'item',
+		        formatter: function (params) {
+		            return params.seriesName + '<br/>' + params.name + ' : ' + params.value+'人';
+		        }
+		    },
+		    visualMap: {
+		        min: 2000,
+		        max: 36000,
+		        realtime: false,
+		        calculable: true,
+		        top: '30%',
+		        left: '15%',
+		        inRange: {
+		            color: ['lightskyblue','yellow','orangered','red']
+		        }
+		    },
+		    series: [{
+	            name: '粉丝数',
+	            type: 'map',
+	            mapType: 'china',
+	            left: '35%',
+	            roam: true,
+	            data: fans,
+		    }],
+		});
+	    var plaMap=echarts.init(document.getElementById('plaMap'));
+		plaMap.setOption({
+			title: {
+		        text: '各地up播放量统计',
+		        top: '5%',
+		        x: 'center',
+		        textStyle: {
+	            	fontSize: 24
+	            }
+		    },
+		    tooltip: {
+		        trigger: 'item',
+		        formatter: function (params) {
+		            return params.seriesName + '<br/>' + params.name + ' : ' + params.value+'次';
+		        }
+		    },
+		    visualMap: {
+		        min: 620000,
+		        max: 6200000,
+		        realtime: false,
+		        calculable: true,
+		        top: '30%',
+		        left: '15%',
+		        inRange: {
+		            color: ['lightskyblue','yellow','orangered','red']
+		        }
+		    },
+		    series: [{
+	            name: '播放量',
+	            type: 'map',
+	            mapType: 'china',
+	            left: '35%',
+	            roam: true,
+	            data: playNum,
+		    }],
+		});
+	</script>
+{% endblock %}

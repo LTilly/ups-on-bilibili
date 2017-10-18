@@ -1,0 +1,405 @@
+{% extends 'layout.html' %}
+
+{% block style %}
+	<style>
+		#vidBar,#sexBar,#folBar,#fanBar,#plaBar{
+			display: inline-block;
+			width: 80%;
+			height: 350px;
+		}
+		main p{
+			max-width: 50%;
+			margin: 0 auto;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<script>
+		var a=document.getElementById("a3");
+		a.className="disabled";
+		a.href="#";
+	</script>
+	<div id="vidBar"></div>
+	<p>番剧类型的up主出的视频最多，毕竟大多都是搬运加汉化动画作品的，其次是游戏类型，看吧，游戏类型的视频就是制作简单。而视频数最少的是鬼畜和国创，国产动漫佳作少，所以衍生视频也少，倒是鬼畜真没想到。</p>
+	<br>
+	<div id="sexBar"></div>
+	<p>这张图的差距非常明显啊，时尚和舞蹈区不出所料得女生占了绝大多数，还有电视剧和娱乐区的up主也是以妹子为主。而最不受妹子欢迎的视频类型分别是鬼畜、游戏以及科技。</p>
+	<br>
+	<div id="folBar"></div>
+	<p>各类up主的关注数相差不大，最爱关注别人的是鬼畜区的up主，人均关注86人，而最少的是电影区，只关注了35.5人。</p>
+	<br>
+	<div id="fanBar"></div>
+	<p>粉丝数最少的类型分别是广告、电视剧、娱乐以及番剧，其中广告只有6千来人，毕竟是广告嘛。最多的是时尚区，想不到哇，有3万5千多人，远远超出第二名诶。还有就是，国创区的up主粉丝也远远高于动画区哦，嘿嘿。。。</p>
+	<br>
+	<div id="plaBar"></div>
+	<p>番剧区虽然各项都不突出，但人家视频数多啊，而且出于番剧的特殊性，播放量以7百多万稳居第一。而咱国创区紧随其后，即便有着极低的视频数，播放量仍有6百多万呐。哈哈哈！！！其它区的都是渣渣。尤其时尚区，那么多粉丝，视频数也不低，怎么才1百多万播放量捏？</p>
+	<br>
+	<script type="text/javascript">
+		var cat=['音乐', '动画', '游戏', '国创', '鬼畜', '舞蹈', '科技', '生活', '番剧', '电视剧', '电影', '娱乐', '时尚', '广告'];
+		var category=[{'follow': 67.0969, 'fans': 23150.7145, 'video': 112.0484, 'playNum': 1808047.84, 'sex': 34.85, 'name': '音乐'}, {'follow': 79.1054, 'fans': 13871.2889, 'video': 70.0362, 'playNum': 1548396.1643, 'sex': 31.7, 'name': '动画'}, {'follow': 62.667, 'fans': 23001.9342, 'video': 151.5636, 'playNum': 2539962.9985, 'sex': 14.64, 'name': '游戏'}, {'follow': 53.458, 'fans': 26153.5191, 'video': 50.0153, 'playNum': 6557089.4771, 'sex': 46.88, 'name': '国创'}, {'follow': 85.9847, 'fans': 19304.1063, 'video': 43.8129, 'playNum': 2628148.0757, 'sex': 10.71, 'name': '鬼畜'}, {'follow': 57.2832, 'fans': 20717.2256, 'video': 56.2284, 'playNum': 1578343.4568, 'sex': 84.6, 'name': '舞蹈'}, {'follow': 53.8972, 'fans': 19997.3197, 'video': 133.9598, 'playNum': 2237398.4311, 'sex': 16.61, 'name': '科技'}, {'follow': 54.0786, 'fans': 28986.499, 'video': 121.4638, 'playNum': 2810890.8255, 'sex': 46.49, 'name': '生活'}, {'follow': 52.9631, 'fans': 12109.0564, 'video': 162.0781, 'playNum': 7575880.6182, 'sex': 30.56, 'name': '番剧'}, {'follow': 49.7817, 'fans': 7312.8696, 'video': 57.802, 'playNum': 1454045.4895, 'sex': 79.14, 'name': '电视剧'}, {'follow': 35.4952, 'fans': 28182.8984, 'video': 69.9348, 'playNum': 3257521.1187, 'sex': 40.29, 'name': '电影'}, {'follow': 37.0808, 'fans': 9059.2873, 'video': 114.9714, 'playNum': 1323522.1401, 'sex': 76.28, 'name': '娱乐'}, {'follow': 43.836, 'fans': 35675.1043, 'video': 94.1903, 'playNum': 1229436.6063, 'sex': 85.52, 'name': '时尚'}, {'follow': 38.7097, 'fans': 6031.3226, 'video': 109.129, 'playNum': 1255192.0968, 'sex': 30.0, 'name': '广告'}];
+		var avg={'video': 105.9384, 'follow': 58.2502, 'fans': 20452.9776, 'playNum': 2243691.1611, 'sex': 40.57};
+		var video=[],sex=[],follow=[],fans=[],playNum=[];
+		for(var i=0;i<category.length;i++){
+	    	video.push({name:category[i].name,value:category[i].video.toFixed(2)});
+	    	sex.push({name:category[i].name,value:category[i].sex});
+	    	follow.push({name:category[i].name,value:category[i].follow.toFixed(2)});
+	    	fans.push({name:category[i].name,value:category[i].fans.toFixed(0)});
+	    	playNum.push({name:category[i].name,value:category[i].playNum.toFixed(0)});
+	    }
+	    var vidBar=echarts.init(document.getElementById('vidBar'));
+		vidBar.setOption({
+	    	title: {
+	            text: '各类up主平均视频数',          
+	            x: 'center',
+	            padding: [10, 10, 10, 10],
+	            textStyle: {
+	            	fontSize: 24
+	            }
+	        },
+	        tooltip: {
+	            trigger: 'item',
+	            formatter: "{a} <br/>{b} : {c}部"
+	        },
+	        xAxis: {
+	            type: 'category',
+	            data: cat,
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontWeight: 'bold',
+	            	fontSize: 14,
+	            },
+	        },
+	        yAxis: {
+	            type: 'value',
+	            min: 0,
+
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontWeight: 'bold',
+	            	fontSize: 14,
+	            }
+	        },
+	        series: {
+	            name: '视频数',
+	            type: 'bar',
+	            data: video,
+	            markPoint: {
+	            	data: [{
+	            		name: '最大值',
+	            		type: 'max',
+	            	},{
+	            		name: '最小值',
+	            		type: 'min',
+	            	}]
+	            },
+	            markLine: {
+	            	data: [{
+	            		name: '平均值',
+	            		yAxis: avg.video,
+	            	}],
+	            	lineStyle: {
+	            		normal: {
+	            			color: '#542',
+	            			width: 2,
+	            		}
+	            	},
+	            	precision: 2
+	            },		        
+	        },
+	    });
+	    var sexBar=echarts.init(document.getElementById('sexBar'));
+		sexBar.setOption({
+	    	title: {
+	            text: '各类up主女生比例',          
+	            x: 'center',
+	            padding: [10, 10, 10, 10],
+	            textStyle: {
+	            	fontSize: 24
+	            }
+	        },
+	        tooltip: {
+	            trigger: 'item',
+	            formatter: "{a} <br/>{b} : {c}%"
+	        },
+	        xAxis: {
+	            type: 'category',
+	            data: cat,
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontWeight: 'bold',
+	            	fontSize: 14,
+	            },
+	        },
+	        yAxis: {
+	            type: 'value',
+	            min: 0,
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontWeight: 'bold',
+	            	fontSize: 14,
+	            	formatter: '{value}%'
+	            }
+	        },
+	        series: {
+	            name: '女生比例',
+	            type: 'bar',
+	            data: sex,
+	            markPoint: {
+	            	data: [{
+	            		name: '最大值',
+	            		type: 'max',
+	            	},{
+	            		name: '最小值',
+	            		type: 'min',
+	            	}],
+	            	label: {
+	            		normal: {
+	            			formatter: '{c}%'
+	            		}
+	            	}
+	            },
+	            markLine: {
+	            	data: [{
+	            		name: '平均值',
+	            		yAxis: avg.sex,
+	            	}],
+	            	lineStyle: {
+	            		normal: {
+	            			color: '#542',
+	            			width: 2,
+	            		}
+	            	},
+	            	label: {
+	            		normal: {
+	            			formatter: '{c}%'
+	            		}
+	            	}
+	            },		        
+	        },
+	    });
+	    var folBar=echarts.init(document.getElementById('folBar'));
+		folBar.setOption({
+	    	title: {
+	            text: '各类up主平均关注数',          
+	            x: 'center',
+	            padding: [10, 10, 10, 10],
+	            textStyle: {
+	            	fontSize: 24
+	            }
+	        },
+	        tooltip: {
+	            trigger: 'item',
+	            formatter: "{a} <br/>{b} : {c}人"
+	        },
+	        xAxis: {
+	            type: 'category',
+	            data: cat,
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontWeight: 'bold',
+	            	fontSize: 14,
+	            },
+	        },
+	        yAxis: {
+	            type: 'value',
+	            min: 0,
+
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontWeight: 'bold',
+	            	fontSize: 14,
+	            }
+	        },
+	        series: {
+	            name: '关注数',
+	            type: 'bar',
+	            data: follow,
+	            markPoint: {
+	            	data: [{
+	            		name: '最大值',
+	            		type: 'max',
+	            	},{
+	            		name: '最小值',
+	            		type: 'min',
+	            	}]
+	            },
+	            markLine: {
+	            	data: [{
+	            		name: '平均值',
+	            		yAxis: avg.follow,
+	            	}],
+	            	lineStyle: {
+	            		normal: {
+	            			color: '#542',
+	            			width: 2,
+	            		}
+	            	},
+	            	precision: 2
+	            },		        
+	        },
+	    });
+	    var fanBar=echarts.init(document.getElementById('fanBar'));
+		fanBar.setOption({
+	    	title: {
+	            text: '各类up主平均粉丝数',          
+	            x: 'center',
+	            padding: [10, 10, 10, 10],
+	            textStyle: {
+	            	fontSize: 24
+	            }
+	        },
+	        tooltip: {
+	            trigger: 'item',
+	            formatter: "{a} <br/>{b} : {c}人"
+	        },
+	        xAxis: {
+	            type: 'category',
+	            data: cat,
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontWeight: 'bold',
+	            	fontSize: 14,
+	            },
+	        },
+	        yAxis: {
+	            type: 'value',
+	            min: 0,
+
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontWeight: 'bold',
+	            	fontSize: 14,
+	            }
+	        },
+	        series: {
+	            name: '粉丝数',
+	            type: 'bar',
+	            data: fans,
+	            markPoint: {
+	            	data: [{
+	            		name: '最大值',
+	            		type: 'max',
+	            	},{
+	            		name: '最小值',
+	            		type: 'min',
+	            	}]
+	            },
+	            markLine: {
+	            	data: [{
+	            		name: '平均值',
+	            		yAxis: avg.fans,
+	            	}],
+	            	lineStyle: {
+	            		normal: {
+	            			color: '#542',
+	            			width: 2,
+	            		}
+	            	},
+	            	precision: 0
+	            },
+	        },
+	    });
+	    var plaBar=echarts.init(document.getElementById('plaBar'));
+		plaBar.setOption({
+	    	title: {
+	            text: '各类up主平均播放量',          
+	            x: 'center',
+	            padding: [6, 10, 10, 10],
+	            textStyle: {
+	            	fontSize: 24
+	            }
+	        },
+	        tooltip: {
+	            trigger: 'item',
+	            formatter: "{a} <br/>{b} : {c}部"
+	        },
+	        xAxis: {
+	            type: 'category',
+	            data: cat,
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontWeight: 'bold',
+	            	fontSize: 14,
+	            },
+	        },
+	        yAxis: {
+	            type: 'value',
+	            min: 0,
+	            max: 8500000,
+	            axisLine: {
+	            	lineStyle: {
+	            		width: 2,
+	            	}
+	            },
+	            axisLabel: {
+	            	fontWeight: 'bold',
+	            	fontSize: 14,
+	            }
+	        },
+	        series: {
+	            name: '播放量',
+	            type: 'bar',
+	            data: playNum,
+	            markPoint: {
+	            	data: [{
+	            		name: '最大值',
+	            		type: 'max',
+	            	},{
+	            		name: '最小值',
+	            		type: 'min',
+	            	}]
+	            },
+	            markLine: {
+	            	data: [{
+	            		name: '平均值',
+	            		yAxis: avg.playNum,
+	            	}],
+	            	lineStyle: {
+	            		normal: {
+	            			color: '#542',
+	            			width: 2,
+	            		}
+	            	},
+	            	precision: 0
+	            },	        
+	        },
+	    });
+	</script>
+{% endblock %}

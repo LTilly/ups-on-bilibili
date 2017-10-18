@@ -1,0 +1,317 @@
+{% extends 'layout.html' %}
+
+{% block style %}
+	<script src="https://d3js.org/d3.v4.min.js "></script>
+	<style>
+		#svg1{
+			margin-left: 20%;
+		}
+		.links line{
+			stroke: #666;
+			stroke-width: 1;
+			stroke-opacity: 0.7;
+			marker-end: url(#arrow);
+		}
+		.nodes circle{
+			stroke: #234;
+			stroke-width: 1.5px;
+			cursor: pointer;
+		}
+		#indicator{
+			left: 30px;
+			top: 20px;
+			position: absolute;
+			text-align: left;
+			font-size: 1em;
+		}
+		#indicator span{
+			display: inline-block;
+			width: 13px;
+			height: 13px;
+			margin-right: 5px;
+			border: 1px solid #444;
+		}
+		#indicator>div{
+			display: inline-block;
+		}
+		input{
+			left: 32px;
+			top: 150px;
+			position: absolute;
+			width: 165px;
+			height: 20px;
+			border: 1px solid #666;
+			border-radius: 5px;
+			outline: none;
+			padding-left: 5px;
+			color: #444;
+		}
+		#info{
+			left: 30px;
+			top: 200px;
+			position: absolute;
+			text-align: left;
+			width: 220px;
+		}
+		#info h4{
+			margin: 0;
+			font-size: 1.5em;
+			text-shadow: 0 0 3px #000;
+		}
+		#info p{
+			margin: 1px;
+		}
+		#info img{
+			width: 50px;
+			height: 50px;
+			border: 2px solid #333;
+			border-radius: 5px;
+		}
+		#info span{
+			margin-left: 5px;
+		}
+		#svg2 line{
+			stroke: #1c4011;
+			stroke-width: 2;
+			stroke-opacity: 0.7;
+		}
+		#svg2 rect{
+			fill: #2c7011;
+			cursor: pointer;
+		}
+		main p{
+			max-width: 80%;
+			margin: 0 auto;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<script>
+		var a=document.getElementById("a6");
+		a.className="disabled";
+		a.href="#";
+	</script>
+	<div style="position: relative;">
+		<svg id="svg1" width="800" height="600">
+			<defs>
+				<marker id="arrow" markerWidth="6" markerHeight="4" refx="25" refy="2" orient="auto">
+					<path d="M0,0 L0,4 L6,2" fill="#544" fill-opacity="0.7" />
+				</marker>
+			</defs>
+		</svg>
+		<div id="indicator">
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+		<input type="text" />
+		<div id="info"><h4></h4></div>
+	</div>
+	<svg id="svg2" width="800" height="600"><g>
+		<text x="400" y="40" text-anchor="middle" style="font-size: 2em;font-weight: bold;">
+			各类up关注最多的前三类的up主
+		</text>
+	</g></svg>
+	<p>从图中可以发现，生活区的up普遍受到了各类up主的喜爱；其次就是粉丝最多的游戏去up主，虽然粉丝最多，但是在个别类型的up主那里少有关注。还有就是各类型的up主都普遍会对自己类型的up更喜欢一点，毕竟相互之间也有经常一起录视频或者学习经验什么的。个别类型的up主还特别喜欢一些小众类型的up，比如：娱乐爱电视剧，电视剧爱电影，舞蹈爱音乐。</p>
+	<br>
+	<script type="text/javascript">
+		var svg1=d3.select("#svg1"),
+			width= +svg1.attr("width"),
+			height= +svg1.attr("height");
+		var color=d3.scaleOrdinal(d3.schemeCategory20);
+		var colors=[];
+		for (var i=0;i<15;i++) {
+			colors.push(color(i));
+		}
+
+		var cate=['游戏','生活','动画','音乐','娱乐','科技','电视剧','舞蹈','时尚','鬼畜','电影','番剧','国创','广告','其它'];
+		for(var i=0;i<5;i++){
+			$('#indicator > div').eq(0).append('<div><span style="background-color:'+colors[i]+'"></span>'+cate[i]+' </div>');
+		}
+		for(var i=5;i<10;i++){
+			$('#indicator > div').eq(1).append('<div><span style="background-color:'+colors[i]+'"></span>'+cate[i]+' </div>');
+		}
+		for(var i=10;i<15;i++){
+			$('#indicator > div').eq(2).append('<div><span style="background-color:'+colors[i]+'"></span>'+cate[i]+' </div>');
+		}
+		var simulation=d3.forceSimulation()
+			.force("link",d3.forceLink().id(function(d){return d.id;}))
+			.force("charge",d3.forceManyBody())
+			.force("collision",d3.forceCollide(25))
+			.force("center",d3.forceCenter(width/2,height/2));
+
+		d3.json("../static/js/follow.json",function(error,graph){
+			if (error) {throw error;}
+			var link=svg1.append("g")
+				.attr("class","links")
+				.selectAll("line")
+				.data(graph.links)
+				.enter().append("line")
+				.attr("marker-end","url(#arrow)");
+
+			var node=svg1.append("g")
+				.attr("class","nodes")
+				.selectAll("circle")
+				.data(graph.nodes)
+				.enter().append("circle")
+				.attr("r",function(d){return d.radius;})
+				.attr("fill",function(d){return colors[d.category];})
+				.call(d3.drag()
+					.on("start",dragstarted)
+					.on("drag",dragged)
+					.on("end",dragended))
+				.on("click",clicked)
+				.on("mouseover",mouseovered);
+			node.append("title").text(function(d){return d.name;});
+
+			simulation.nodes(graph.nodes).on("tick",ticked);
+			simulation.force("link").links(graph.links);
+
+			function ticked(){
+				link
+					.attr("x1",function(d){return d.source.x;})
+					.attr("y1",function(d){return d.source.y;})
+					.attr("x2",function(d){return d.target.x;})
+					.attr("y2",function(d){return d.target.y;});
+				node
+					.attr("cx",function(d){return d.x;})
+					.attr("cy",function(d){return d.y;});
+			}
+
+			dragging=false;
+			function dragstarted(d){
+				if (!d3.event.active) {simulation.alphaTarget(0.3).restart();}
+				d.fx=d.x;
+				d.fy=d.y;
+				dragging=true;
+			}
+			function dragged(d){
+				d.fx=d3.event.x;
+				d.fy=d3.event.y;
+			}
+			function dragended(d){
+				if (!d3.event.active) {simulation.alphaTarget(0);}
+				d.fx=null;
+				d.fy=null;
+				dragging=false;
+			}
+
+			function clicked(d){
+				if (!dragging) {
+					d3.select('#svg1 .nodes').selectAll('circle').attr('display',function(dd){
+						if (dd.id==d.id) {return '';}
+						for(var i=0;i<graph.links.length;i++){
+							if(graph.links[i].source.id==d.id && graph.links[i].target.id==dd.id){ return '';}
+							if(graph.links[i].source.id==dd.id && graph.links[i].target.id==d.id){ return '';}
+						}
+						return 'none';
+					});
+					d3.select('#svg1 .links').selectAll('line').attr('display',function(dd){
+						if(dd.source.id==d.id || dd.target.id==d.id){return '';}
+						else{return 'none';}
+					})
+				}
+				d3.event.stopPropagation();
+			}
+			svg1.on('click',function(){
+				d3.select('#svg1 .nodes').selectAll('circle').attr('display','');
+				d3.select('#svg1 .links').selectAll('line').attr('display','');
+			})
+
+			function mouseovered(d){
+				if (!dragging) {
+					var name=d.name;
+					d3.select('#info h4').style('color',colors[d.category]).text(name);
+					$('#info p').remove();
+					$('#info').append('<p><img src="../static/img/'+d.id+'.jpg"></p>');
+					if (info[name].sex) {$('#info p').append('<span>'+info[name].sex+'</span>');}
+					$('#info p').append('<span>'+info[name].level+'级</span>');
+					if (info[name].description) {$('#info').append('<p>认证：'+info[name].description+'</p>');}
+					$('#info').append('<p>视频数：'+info[name].video+'</p><p>播放量：'+info[name].playNum+'</p><p>关注数：'+info[name].follow+'</p><p>粉丝：'+info[name].fans+'</p>');
+					if (info[name].regtime) {
+						$('#info').append('<p>注册时间：'+info[name].regtime+'</p>');
+						$('#info').append('<p>生日：'+info[name].birth+'</p>');
+						if (info[name].place) {$('#info').append('<p>所在地：'+info[name].place+'</p>');}
+					}
+					if (info[name].tags) {$('#info').append('<p>标签：'+info[name].tags+'</p>');}
+				}
+			}
+		});
+
+		$('input').keyup(function(event){
+			if($(this).val()==''){
+				d3.select('#svg1 .nodes').selectAll('circle').attr('display','');
+				d3.select('#svg1 .links').selectAll('line').attr('display','');
+			}else{
+				var key=$(this).val();
+				d3.select('#svg1 .nodes').selectAll('circle').attr('display',function(d){
+					if(d.name.toLowerCase().indexOf(key.toLowerCase())>=0){
+						return '';
+					}else{
+						return 'none';
+					}
+				});
+				d3.select('#svg1 .links').selectAll('line').attr('display','none');
+			}
+		});
+
+		var info;
+		d3.json("../static/js/ups.json",function(error,data){
+			info=data;
+		});
+
+		d3.json("../static/js/category.json",function(error,graph){
+			if (error) {throw error;}
+			var cate1=['游戏','生活','动画','音乐','科技','鬼畜','电影','时尚','娱乐','电视剧','舞蹈','番剧','国创','广告'];
+			var cate2=['游戏','生活','动画','音乐','科技','鬼畜','电影','时尚','娱乐','电视剧','舞蹈','番剧','国创','广告','所有人'];
+			d3.select('#svg2 g')
+				.selectAll('text.left')
+				.data(cate1)
+				.enter()
+				.append('text')
+				.text(function(d){return d;})
+				.attr('x',50)
+				.attr('y',function(d,i){return 120+i*35})
+				.attr('text-anchor','end');
+			d3.select('#svg2 g')
+				.selectAll('text.top')
+				.data(cate2)
+				.enter()
+				.append('text')
+				.text(function(d){return d;})
+				.attr('y',80)
+				.attr('x',function(d,i){return i*48+85;})
+				.attr('text-anchor','middle');
+			d3.select('#svg2 g')
+				.selectAll('line')
+				.data(cate2)
+				.enter()
+				.append('line')
+				.attr('y1',100)
+				.attr('x1',function(d,i){return i*48+60;})
+				.attr('y2',590)
+				.attr('x2',function(d,i){return i*48+60;});
+			var rect=d3.select('#svg2 g')
+				.selectAll('rect')
+				.data(graph)
+				.enter()
+				.append('rect')
+				.attr('x',function(d){
+					return cate2.indexOf(d.cat)*48+61;
+				}).attr('y',function(d){
+					return cate1.indexOf(d.category)*35+105;
+				}).attr('height',20)
+				.transition()
+				.duration(1000)
+				.attr('width',function(d){
+					if (d.cat=='所有人') {return Math.sqrt(d.num)*30;}
+					return Math.sqrt(d.num)*10;
+				});
+			rect.append("title").text(function(d){
+				if (d.cat=='所有人') {return '每位up\n关注了'+d.num+'位\n'+d.category+'区up主';}
+				return '每位'+d.cat+'up\n关注了'+d.num+'位\n'+d.category+'区up主';
+			});
+		});
+	</script>
+{% endblock %}
